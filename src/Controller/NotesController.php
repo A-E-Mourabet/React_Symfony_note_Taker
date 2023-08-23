@@ -37,13 +37,9 @@ class NotesController extends AbstractController
 
     public function GetNotes (UserRepository $userRepository) :JsonResponse
     {
-        // $Email=$request->query->get('userId');
-        // /** @var $user User */
         $user= $this -> getUser();
         $user = $userRepository -> findConnectedUser($user->getUserIdentifier());
-        // dd($user);
         $notes = $user -> getNotes();
-        // $notes = $notesRepository->findNotesByEmail($Email);
         $formattedNotes = [];
     foreach ($notes as $note) {
         $formattedNotes[] = [
@@ -53,8 +49,6 @@ class NotesController extends AbstractController
         ];
     } 
     return $this->json(['notes' => $formattedNotes]);
-        // return new JsonResponse(['notes' => $formattedNotes]);
-
     }
 
     #[Route("/deleteNotes" , name:'delete_notes' )]
@@ -63,8 +57,6 @@ class NotesController extends AbstractController
 {   
     
     $delNotes=json_decode($request->getContent(), true)['delNotes'];
-    // dd($delNotes);
-    // /** @var $user User */
     $user= $this -> getUser();
     $user = $userRepository -> findConnectedUser($user->getUserIdentifier());
     foreach ($delNotes as $note) {

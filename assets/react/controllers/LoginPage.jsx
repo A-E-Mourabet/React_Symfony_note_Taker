@@ -50,7 +50,6 @@ export default function LoginPage(){
     </label>
     <input  type='password' name="password" id="inputPassword" className='lf--input' placeholder='Password' autoComplete="current-password" required  onChange={(e) => setPassword(e.target.value)} />
   </div>
-  {/* <input type="hidden" name="_csrf_token" value={{ csrf_token("authenticate") }}/> */}
   <input className='lf--submit' type='submit' value='Sign In'/>
   </form>
   <a className='lf--forgot' href="/register">Register </a>

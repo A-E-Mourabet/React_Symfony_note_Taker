@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { NoteForm } from "./Form";
 import { AnimatedDel } from "./AnimatedDel";
 import { DeleteButtons } from "./DeleteButtons";
@@ -14,7 +14,6 @@ export default function App(){
 
   // functions:
   function toggleDel(note){
-    // note.checked= ! note.checked;
     const updatedNotes = notes.map((n) => {
       if (n.id === note.id) {
         return { ...n, checked: !n.checked };
@@ -34,7 +33,7 @@ export default function App(){
  // returned HTML
   return(
   <>
-
+  <div className="logout_wrap"><a className='logout' href="/logout">logout &#8614; </a></div>
   <p className="ListTitle">React ~ Notes</p>
   <hr className="line"></hr>
   <NoteForm setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId}/>
