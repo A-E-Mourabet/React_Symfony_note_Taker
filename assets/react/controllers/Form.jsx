@@ -6,8 +6,6 @@
 
   const [ newNote , setNewNote ] = useState("")
   const [ newTitle , setNewTitle ] = useState("")
-
-  // const [notes,setNotes]=useState([])
   ////UseEffect
   useEffect(() => {
     // Fetch the current user's ID
@@ -50,9 +48,14 @@
   // sent to DataBase
       axios.post("/newNote" ,{title: title , content : content, userId : userId}).then(response =>{
         console.log(response.data.message);
+
+        var tempNotes = Notes;
+
       }).catch(error => {
         console.error('Error saving data:', error);
       });
+      
+
       axios.get('/getNotes')
       .then(response => {
         const notes = response.data.notes;
