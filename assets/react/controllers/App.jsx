@@ -1,90 +1,65 @@
 import React, { useState } from 'react';
-import { NoteForm } from "./Form";
-import { AnimatedDel } from "./AnimatedDel";
-import { DeleteButtons } from "./DeleteButtons";
 import { SearchBar } from "./SearchBar";
+import AddNote from "./AddNote";
 import "../../styles/AppStyle.scss";
+import axios from 'axios';
+import Note from './Note';
 
 export default function App(){
   // useStates:
-  const [notes,setNotes]=useState([])
-  const [visibleNotes,setVisibleNotes]=useState([])
-  const [showCloseButtons, setShowCloseButtons] = useState(false);
-  const [userId, setUserId] = useState(null);
+  const [darkMode, setDarkMode] = useState(false);
+  const [notes,setNotes]=useState([]);
+  const [visibleNotes,setVisibleNotes]=useState([]);
+  const [userId, setUserId] = useState(null);;
+  const [creationDate, setCreationDate] = useState(new Date());
 
-  // functions:
-  function toggleDel(note){
-    const updatedNotes = notes.map((n) => {
-      if (n.id === note.id) {
-        return { ...n, checked: !n.checked };
-      }
-      return n;
-    });
-    const updatedVisibleNotes = visibleNotes.map((n) => {
-      if (n.id === note.id) {
-        return { ...n, checked: !n.checked };
-      }
-      return n;
-    });
-      setNotes(updatedNotes);
-      setVisibleNotes(updatedVisibleNotes);
-      console.log("checked");
+  function delNote(id){ 
+
+    const deletableNotes = notes.filter( (note) => note.id===id);
+    setNotes([...notes.filter( (note) => note.id!==id)]);
+    setVisibleNotes([...visibleNotes.filter( (note) => note.id!==id)]);
+
+    axios.delete('/deleteNotes',{
+        data : {delNotes:deletableNotes},
+      }).then(response => {
+        console.log(response.data.message);
+      })
+      .catch(error => {
+        console.error('Error deleting notes:', error);
+      });
   }
  // returned HTML
   return(
   <>
-  <div className="logout_wrap"><a className='logout' href="/logout">logout &#8614; </a></div>
+  		<div className={`${darkMode && 'dark-mode'}`}>
+  <div className="logout_wrap"><a className='save' href="/logout">logout &#8614; </a>
+  <button
+				onClick={() =>
+					setDarkMode(
+						(previousDarkMode) => !previousDarkMode
+					)
+				}
+				className='save'
+			>
+				Toggle Mode
+			</button>
+      </div>
   <p className="ListTitle">React ~ Notes</p>
   <hr className="line"></hr>
-  <NoteForm setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId}/>
 
   <SearchBar notes={notes} visibleNotes={visibleNotes} setVisibleNotes={setVisibleNotes} />
 
-  <DeleteButtons  visibleNotes={visibleNotes}  notes={notes} setNotes={setNotes} showCloseButtons={showCloseButtons} setShowCloseButtons={setShowCloseButtons} setVisibleNotes={setVisibleNotes} />
   <h1 className="header">Notes...</h1>
-    <div className="column-container">
-      <div className="column">
-        {visibleNotes.map((note,index) =>{
-          if(!(index%2)){
+    <div className="NoteList">
+    <AddNote setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId} notes={notes} visibleNotes={visibleNotes} creationDate={creationDate} setCreationDate={setCreationDate} />
+        {visibleNotes.map((note) =>{
             return <div key={note.id}>
-              <div className=" NoteClose">
-                <div className={showCloseButtons ? "closeButton" : "closeButton hidden"} >
-                  <label></label>
-                  <input type="checkbox" className="closeButtonIn" onChange={() => toggleDel(note)}/>
-                  <AnimatedDel/>
-                </div>
-                <div className="titleWrap">
-                <p className="postedTitle" dangerouslySetInnerHTML={{ __html: note.title }}/>
-                </div>
-                <hr className={(note.title==="") ?"noteHr hidden" : "noteHr"}></hr>{note.title===""}
-                <p className="postedNote" dangerouslySetInnerHTML={{ __html: note.content }}/>
-              </div>
-            </div>
-          }
-        })}
-      </div>
-      <div className="column">
-        {visibleNotes.map((note, index) => {
-          if(index%2){
-            return <div key={note.id}>
-              <div className=" NoteClose">
-                <div className={showCloseButtons ? "closeButton" : "closeButton hidden"}>
-                  <label></label>
-                  <input type="checkbox" className="closeButtonIn" onChange={() => toggleDel(note)}/>   
-                  <AnimatedDel/>
-                </div>
-                <div className="titleWrap">
-                <p className="postedTitle" dangerouslySetInnerHTML={{ __html: note.title }}/>
-                </div>
-                <hr className={(note.title==="") ?"noteHr hidden" : "noteHr"}></hr>
-              <p className="postedNote" dangerouslySetInnerHTML={{ __html: note.content }}/>
-              </div>
-            </div>
-          }
-        })}
-      </div>
 
-    </div>
-  </>
+                <Note id= {note.id} title={note.title} content={note.content} date={note.Cdate} handleDeleteNote={delNote} creationDate={creationDate} setCreationDate={setCreationDate}  />
 
+            </div>
+         })} 
+        </div>
+        </div>
+        </>
     )};

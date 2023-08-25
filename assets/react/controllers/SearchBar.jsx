@@ -1,6 +1,6 @@
 import React from "react";
-
 import { useState } from "react";
+import { MdSearch } from 'react-icons/md';
 
 export function SearchBar({notes ,visibleNotes, setVisibleNotes}){
     const [ searched , setSearched] = useState("")
@@ -31,8 +31,8 @@ function searchHandler(search){
 
 return(
 <div className="searchBarWrap">
-    <label className="searchBarLabel">Search : </label>
-        <input type="text" className="searchBar" onChange={SearchBarChange} value={searched}/>
+        <MdSearch className='search-icons' size='1.3em' />
+        <input type="text" className="searchBar" onChange={SearchBarChange} value={searched} placeholder="type to search in notes...."/>
         <button type="reset" className="resetButton" onClick={SearchDefault}>Clear</button>
 
       </div>

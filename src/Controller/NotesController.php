@@ -9,7 +9,10 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Mapping\Id;
+// use Doctrine\ORM\Mapping\Id;
+use Symfony\Component\Serializer\Normalizer\DateTimeNormalizer;
+use Symfony\Component\Serializer\Serializer;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
 
 class NotesController extends AbstractController
 {
@@ -20,16 +23,24 @@ class NotesController extends AbstractController
         $user = $this->getUser();
         $data= json_decode($request -> getContent(),true);
         $user= $userRepo->find($data['userId']);
+        $date=new \DateTime(($data['creationDate']));
+        // $encoders = [new JsonEncoder()];
+        // $normalizers = [new DateTimeNormalizer()];
+        // $serializer = new Serializer([new DateTimeNormalizer()], [new JsonEncoder()]);
+        // $date = $serializer->denormalize($date, \DateTimeInterface::class);
+
 
         $newNote= new Notes();
         $newNote -> setTitle($data['title']);
         $newNote -> setContent($data['content']);
+        $newNote -> setCreationDate($date);
         $newNote -> setUser($user);
 
         $entityManager->persist($newNote);
         $entityManager->flush();
+        $latestId = $newNote->getId();
 
-        return $this->json(['message' => 'Data saved successfully']);
+        return $this->json(['message' => 'Data saved successfully', "id" =>$latestId]);
 
     }
 
@@ -42,10 +53,13 @@ class NotesController extends AbstractController
         $notes = $user -> getNotes();
         $formattedNotes = [];
     foreach ($notes as $note) {
+        $creationDate= $note -> getCreationDate();
+        $formattedDate = $creationDate->format('Y-m-d\TH:i:s.u\Z');
         $formattedNotes[] = [
             'id' => $note->getId(),
             'title' => $note->getTitle(),
             'content' => $note->getContent(),
+            'creationDate' => $formattedDate,
         ];
     } 
     return $this->json(['notes' => $formattedNotes]);
