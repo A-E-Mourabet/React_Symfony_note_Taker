@@ -8,13 +8,16 @@ import Note from './Note';
 export default function App(){
   // useStates:
   const [darkMode, setDarkMode] = useState(false);
+  const [listMode, setListMode] = useState(false);
+  const [selectedNote, setSelectedNote] = useState(null);
+
   const [notes,setNotes]=useState([]);
   const [visibleNotes,setVisibleNotes]=useState([]);
   const [userId, setUserId] = useState(null);;
   const [creationDate, setCreationDate] = useState(new Date());
 
+  //functions
   function delNote(id){ 
-
     const deletableNotes = notes.filter( (note) => note.id===id);
     setNotes([...notes.filter( (note) => note.id!==id)]);
     setVisibleNotes([...visibleNotes.filter( (note) => note.id!==id)]);
@@ -28,29 +31,50 @@ export default function App(){
         console.error('Error deleting notes:', error);
       });
   }
+
+  function changeBodyBGColor(){
+    setDarkMode(
+      (previousDarkMode) => !previousDarkMode
+    );
+    document.body.style.backgroundColor = darkMode ? "#FFFFFF" : "#050B41 " ;
+  }
+
+  function changeDisplayMode(){
+    setListMode(
+      (previousListMode) => !previousListMode
+    );
+
+  }
+
  // returned HTML
   return(
   <>
-  		<div className={`${darkMode && 'dark-mode'}`}>
   <div className="logout_wrap"><a className='save' href="/logout">logout &#8614; </a>
   <button
 				onClick={() =>
-					setDarkMode(
-						(previousDarkMode) => !previousDarkMode
-					)
+					changeBodyBGColor()   
 				}
 				className='save'
 			>
-				Toggle Mode
+				dark light
+			</button>
+      <button
+				onClick={() =>
+					changeDisplayMode()   
+				}
+				className='save'
+			>
+				change display mode
 			</button>
       </div>
-  <p className="ListTitle">React ~ Notes</p>
+  <p className="ListTitle" style={{ color: darkMode ? "#FFFFFF" : "#000000" }} >React ~ Notes</p>
   <hr className="line"></hr>
 
   <SearchBar notes={notes} visibleNotes={visibleNotes} setVisibleNotes={setVisibleNotes} />
 
-  <h1 className="header">Notes...</h1>
-    <div className="NoteList">
+  <h1 className="header" style={{ color: darkMode ? "#FFFFFF" : "#000000" }}>Notes...</h1>
+        
+    <div className={`NoteList ${listMode ? 'listMode' : 'gridMode'}`}>
     <AddNote setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId} notes={notes} visibleNotes={visibleNotes} creationDate={creationDate} setCreationDate={setCreationDate} />
         {visibleNotes.map((note) =>{
             return <div key={note.id}>
@@ -60,6 +84,8 @@ export default function App(){
             </div>
          })} 
         </div>
+        <div className='showSelectedNote'>
+
         </div>
         </>
     )};
