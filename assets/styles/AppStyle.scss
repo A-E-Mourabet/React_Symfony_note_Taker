@@ -303,13 +303,16 @@ code {
   .listMode.NoteList {
       display: flex;
   flex-direction: column;
+  max-width: 40%;
+  
   }
 
-  .note{
+  .note,.listedNote{
     background-color: #fef68a;
     border-radius: 10px;
     padding: 1rem;
     min-height: 250px;
+    margin-bottom: 7px;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -383,9 +386,6 @@ code {
   display: none;
 }
 
-// .postedNote{
-//   margin-top: 0px;
-// }
 
     .closeButton {
       --size: 20px;

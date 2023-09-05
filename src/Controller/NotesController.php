@@ -17,17 +17,14 @@ use Symfony\Component\Serializer\Encoder\JsonEncoder;
 class NotesController extends AbstractController
 {
     
-    #[Route("/newNote" , name:'app_note' )]
+    #[Route("/newNote" , name:'app_note', methods:["POST"] )]
     public function NewNote (Request $request ,EntityManagerInterface $entityManager,UserRepository $userRepo) : jsonResponse
     {
         $user = $this->getUser();
         $data= json_decode($request -> getContent(),true);
         $user= $userRepo->find($data['userId']);
         $date=new \DateTime(($data['creationDate']));
-        // $encoders = [new JsonEncoder()];
-        // $normalizers = [new DateTimeNormalizer()];
-        // $serializer = new Serializer([new DateTimeNormalizer()], [new JsonEncoder()]);
-        // $date = $serializer->denormalize($date, \DateTimeInterface::class);
+
 
 
         $newNote= new Notes();
@@ -46,11 +43,17 @@ class NotesController extends AbstractController
 
     #[Route("/getNotes" , name:'get_notes' , methods:"GET" )]
 
-    public function GetNotes (UserRepository $userRepository) :JsonResponse
+    public function GetNotes (UserRepository $userRepository , NotesRepository $notesRepository) :JsonResponse
     {
         $user= $this -> getUser();
         $user = $userRepository -> findConnectedUser($user->getUserIdentifier());
+        $role = $user -> getRoles();
+        $notes = new Notes;
+        if ($role[0]==="ROLE_ADMIN"){
+            $notes = $notesRepository ->findAll(); 
+        }else{
         $notes = $user -> getNotes();
+        }
         $formattedNotes = [];
     foreach ($notes as $note) {
         $creationDate= $note -> getCreationDate();

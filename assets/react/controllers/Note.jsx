@@ -2,13 +2,14 @@ import { MdDeleteForever } from 'react-icons/md';
 import React, { useEffect } from 'react';
 
 
-const Note = ({ id,title, content,date, handleDeleteNote , creationDate , setCreationDate}) => {
+const Note = ({id,title, content,date, handleDeleteNote , setCreationDate}) => {
     useEffect(() => {
         setCreationDate(new Date());
       }, []);
 
     
 	return (
+
 		<div className='note'>
             <div className="titleWrap">
                 <span className="postedTitle" dangerouslySetInnerHTML={{ __html: title }}/>

@@ -2,7 +2,7 @@ import { MdDeleteForever } from 'react-icons/md';
 import React, { useEffect } from 'react';
 
 
-const ListedNote = ({ id,title, content,date, handleDeleteNote , creationDate , setCreationDate}) => {
+const ListedNote = ({ id,title, content,date, handleDeleteNote , setCreationDate}) => {
     useEffect(() => {
         setCreationDate(new Date());
       }, []);
@@ -10,12 +10,14 @@ const ListedNote = ({ id,title, content,date, handleDeleteNote , creationDate , 
     
 	return (
 		<div className='listedNote'>
-            if(title){
+			{title==!"" ? (
             <div className="titleWrap list">
                 <span className="postedTitle list" dangerouslySetInnerHTML={{ __html: title }}/>
                 </div>
-                }
+			):(
                 <span className="postedNote list" dangerouslySetInnerHTML={{ __html: content }}/>
+			)}
+
 			<div className='note-footer'>
 				<small>{date.toString().split("T")[0]}</small>
 				<MdDeleteForever

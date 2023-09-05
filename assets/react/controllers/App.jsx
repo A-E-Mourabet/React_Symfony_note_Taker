@@ -4,6 +4,7 @@ import AddNote from "./AddNote";
 import "../../styles/AppStyle.scss";
 import axios from 'axios';
 import Note from './Note';
+import ListedNote from './ListedNote';
 
 export default function App(){
   // useStates:
@@ -46,6 +47,7 @@ export default function App(){
 
   }
 
+
  // returned HTML
   return(
   <>
@@ -75,13 +77,20 @@ export default function App(){
   <h1 className="header" style={{ color: darkMode ? "#FFFFFF" : "#000000" }}>Notes...</h1>
         
     <div className={`NoteList ${listMode ? 'listMode' : 'gridMode'}`}>
-    <AddNote setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId} notes={notes} visibleNotes={visibleNotes} creationDate={creationDate} setCreationDate={setCreationDate} />
-        {visibleNotes.map((note) =>{
-            return <div key={note.id}>
 
-                <Note id= {note.id} title={note.title} content={note.content} date={note.Cdate} handleDeleteNote={delNote} creationDate={creationDate} setCreationDate={setCreationDate}  />
+    <AddNote setNotes={setNotes} setVisibleNotes={setVisibleNotes} userId={userId} setUserId={setUserId} notes={notes} visibleNotes={visibleNotes} creationDate={creationDate} setCreationDate={setCreationDate} /> 
+        {visibleNotes.map((note) =>{
+            return( <div key={note.id}>
+              {listMode ?(
+                <ListedNote Note listMode={listMode} id= {note.id} title={note.title} content={note.content} date={note.Cdate} handleDeleteNote={delNote} setCreationDate={setCreationDate}  />
+                ) : (
+                <Note listMode={listMode} id= {note.id} title={note.title} content={note.content} date={note.Cdate} handleDeleteNote={delNote} setCreationDate={setCreationDate}  />  
+
+                )}
+
 
             </div>
+         )
          })} 
         </div>
         <div className='showSelectedNote'>
