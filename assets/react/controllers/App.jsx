@@ -51,7 +51,7 @@ export default function App(){
  // returned HTML
   return(
   <>
-  <div className="logout_wrap"><a className='save' href="/logout">logout &#8614; </a>
+    <div className="changer_wrap">
   <button
 				onClick={() =>
 					changeBodyBGColor()   
@@ -69,6 +69,9 @@ export default function App(){
 				change display mode
 			</button>
       </div>
+      <div className="logout_wrap">
+    <a href="/logout">logout &#8614; </a>
+    </div>
   <p className="ListTitle" style={{ color: darkMode ? "#FFFFFF" : "#000000" }} >React ~ Notes</p>
   <hr className="line"></hr>
 

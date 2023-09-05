@@ -359,11 +359,13 @@ code {
 }
 .save {
 	background-color: #e1e1e1;
-	border: none;
+	// border: none;
 	border-radius: 15px;
 	padding: 5px 10px 5px 10px;
   border-width: 2px;
-  border-color: #000;
+  border-color: #119992a4;
+  border-width: 5px;
+  margin: 6px;
 }
 .save:hover {
 	background-color: #ededed;
@@ -653,27 +655,27 @@ margin-bottom: 15px;
 }
 
 .logout_wrap{
-  display: inline-flex;
-  flex-direction: column; 
+  display: inline;
+  justify-content: flex-end;
+  flex-direction:row; 
   text-align: right ;
-  // background-color: #e1e1e1;
-	// border: none;
-	// border-radius: 15px;
-	// padding: 5px 10px 5px 10px;
-  
-
+  margin-left:3px;
+  background-color: #fef68aff;
+  // padding: 7px;
+  // border-width: 5px;
+  border-radius: 15px;
+	padding: 5px 10px 5px 10px;
+  border-color: #119992a4;
+  border-width: 5px;
+  margin: 6px;
 }
-// .logout{
-//   // color: rgb(28, 25, 50);
-//   // font-weight: bolder;
-//   // font-size: .80em;
-// }
-// .logout:hover{
-//   color:red;
-// }
 
-
-
+.changer_wrap{
+  display: inline-flex;
+  justify-content: flex-end;
+  flex-direction:row; 
+  text-align: right ;
+}
 
 
 .trash_icons{
