@@ -14,5 +14,6 @@ this is a step-by-step on how to configure this project:
 
 5 / for the node.js dependencies use : yarn install / or npm install
 6/ then yarn encore dev --watch  # or npm run encore dev --watch to apply any changes you make
-7/in another Terminal use : php bin/console server:start
+7/in another Terminal use : symfony serve -d
+                                npm run watch   
 access the application by going to http://localhost:8000 (usually) or check the above command results
