@@ -37,6 +37,9 @@
             You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a> or <a href="{{ path('main_page') }}">Get to your Notes!</a> 
         </div>
     {% endif %}
+    {% if error %}
+        <div class="alert alert-danger">{{ "your password or email are incorrect" }}</div>
+    {% endif %}
   </div>
 
 

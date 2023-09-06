@@ -14,11 +14,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils ): Response
     {
-        // $csrfToken = $csrfTokenManager->getToken('authenticate')->getValue();
 
-        // if ($this->getUser()) {
-        //     return $this->redirectToRoute('target_path');
-        // }
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -31,7 +27,7 @@ class SecurityController extends AbstractController
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout()
     {
-        return $this->redirectToRoute('app_register');
+        return $this->redirectToRoute('app_login');
     }
 
 

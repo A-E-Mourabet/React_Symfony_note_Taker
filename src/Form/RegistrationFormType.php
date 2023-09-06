@@ -20,6 +20,9 @@ class RegistrationFormType extends AbstractType
     {
         $builder
             ->add('email', EmailType::class, [
+                // 'constraints' => [
+                //     ''
+                // ]
                 // 'error_bubbling' => false, // Do not render errors on top of the form_row
             ])
             ->add('agreeTerms', CheckboxType::class, [
